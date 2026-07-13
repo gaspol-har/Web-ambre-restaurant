@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AMBRE — Wood-Fired Dining</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green-deep:#0F2E23;
+    --green-panel:#153A2C;
+    --ivory:#EDE6D6;
+    --paper:#FAF7F0;
+    --brass:#B6905C;
+    --brass-bright:#D8B478;
+    --ink:#171310;
+    --wine:#5C1A24;
+    --line: rgba(182,144,92,0.35);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces',serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;text-decoration:none;}
+  .eyebrow{
+    font-size:0.72rem;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--brass);
+    font-weight:600;
+  }
+  ::selection{background:var(--brass);color:var(--green-deep);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:22px 6vw;
+    transition:background 0.4s ease, padding 0.4s ease, box-shadow .4s ease;
+  }
+  nav.scrolled{
+    background:rgba(15,46,35,0.92);
+    backdrop-filter:blur(8px);
+    padding:14px 6vw;
+    box-shadow:0 8px 24px rgba(0,0,0,0.15);
+  }
+  .logo{
+    font-family:'Fraunces',serif;
+    font-size:1.35rem;
+    letter-spacing:0.05em;
+    color:var(--ivory);
+    display:flex;align-items:center;gap:10px;
+  }
+  .logo-mark{
+    width:30px;height:30px;border:1px solid var(--brass);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.85rem;color:var(--brass-bright);
+  }
+  .nav-links{display:flex;gap:38px;}
+  .nav-links a{
+    color:var(--ivory);
+    font-size:0.82rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    opacity:0.85;
+    position:relative;
+    padding-bottom:4px;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--brass-bright);
+    transition:width .35s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-cta{
+    border:1px solid var(--brass);
+    padding:9px 20px;
+    border-radius:30px;
+    font-size:0.78rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--brass-bright);
+    transition:background .3s ease, color .3s ease;
+  }
+  .nav-cta:hover{background:var(--brass);color:var(--green-deep);}
+  .nav-toggle{display:none;color:var(--ivory);font-size:1.5rem;background:none;border:none;cursor:pointer;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(182,144,92,0.10), transparent 55%),
+      radial-gradient(ellipse at 80% 80%, rgba(92,26,36,0.25), transparent 60%),
+      var(--green-deep);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    position:relative;
+    padding:120px 6vw 80px;
+    color:var(--ivory);
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 3px);
+    pointer-events:none;
+  }
+  .hero .eyebrow{margin-bottom:26px;opacity:0;animation:riseIn .9s ease .2s forwards;}
+  .hero h1{
+    font-size:clamp(3.6rem, 11vw, 8.2rem);
+    line-height:0.92;
+    color:var(--ivory);
+    opacity:0;animation:riseIn 1s ease .35s forwards;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--brass-bright);
+  }
+  .hero p.sub{
+    max-width:520px;
+    margin:30px auto 46px;
+    font-size:1.05rem;
+    color:rgba(237,230,214,0.75);
+    font-weight:300;
+    opacity:0;animation:riseIn 1s ease .55s forwards;
+  }
+  .hero-ctas{display:flex;gap:20px;opacity:0;animation:riseIn 1s ease .75s forwards;}
+  .btn-seal{
+    width:118px;height:118px;border-radius:50%;
+    border:1px solid var(--brass);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:var(--brass-bright);
+    font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;
+    background:radial-gradient(circle at 35% 30%, rgba(182,144,92,0.18), transparent 70%);
+    transition:transform .4s ease, box-shadow .4s ease;
+  }
+  .btn-seal:hover{transform:scale(1.06);box-shadow:0 0 30px rgba(182,144,92,0.25);}
+  .btn-ghost{
+    align-self:center;
+    font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--ivory);opacity:0.7;
+    border-bottom:1px solid var(--line);
+    padding-bottom:4px;
+    transition:opacity .3s ease;
+  }
+  .btn-ghost:hover{opacity:1;}
+
+  @keyframes riseIn{
+    from{opacity:0;transform:translateY(18px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  .scroll-cue{
+    position:absolute;bottom:34px;left:50%;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+    color:rgba(237,230,214,0.55);font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;
+  }
+  .scroll-cue .line{width:1px;height:36px;background:linear-gradient(var(--brass), transparent);animation:pulseLine 2s ease-in-out infinite;}
+  @keyframes pulseLine{0%,100%{opacity:0.3;}50%{opacity:1;}}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:130px 6vw;position:relative;}
+  .section-head{max-width:640px;margin-bottom:70px;}
+  .section-head .eyebrow{margin-bottom:18px;}
+  .section-head h2{font-size:clamp(2.2rem,4.2vw,3.4rem);}
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease, transform .8s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* ---------- PHILOSOPHY ---------- */
+  .philosophy{background:var(--paper);}
+  .pillars{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:50px;
+    border-top:1px solid rgba(23,19,16,0.1);
+    padding-top:56px;
+  }
+  .pillar h3{font-size:1.55rem;margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+  .pillar svg{width:26px;height:26px;stroke:var(--wine);flex-shrink:0;}
+  .pillar p{font-size:0.95rem;color:rgba(23,19,16,0.72);font-weight:300;max-width:320px;}
+
+  /* ---------- MENU ---------- */
+  .menu-section{
+    background:var(--green-deep);color:var(--ivory);
+  }
+  .menu-section .section-head h2{color:var(--ivory);}
+  .menu-tabs{display:flex;gap:6px;margin-bottom:50px;flex-wrap:wrap;}
+  .menu-tab{
+    padding:10px 22px;border:1px solid var(--line);border-radius:30px;
+    font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;
+    color:rgba(237,230,214,0.65);
+    cursor:pointer;transition:all .3s ease;background:none;
+  }
+  .menu-tab.active, .menu-tab:hover{background:var(--brass);color:var(--green-deep);border-color:var(--brass);}
+  .menu-panel{display:none;}
+  .menu-panel.active{display:block;animation:fadeMenu .5s ease;}
+  @keyframes fadeMenu{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+  .dish{
+    display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+    padding:22px 0;border-bottom:1px solid var(--line);
+    cursor:default;
+  }
+  .dish-name-wrap{flex:1;}
+  .dish-name{
+    font-family:'Fraunces',serif;font-size:1.25rem;font-style:italic;
+    display:flex;align-items:baseline;gap:8px;
+  }
+  .dish-desc{
+    font-size:0.86rem;color:rgba(237,230,214,0.55);font-weight:300;margin-top:6px;
+    max-width:480px;
+  }
+  .dish-price{
+    font-family:'Fraunces',serif;color:var(--brass-bright);font-size:1.1rem;white-space:nowrap;
+  }
+
+  /* ---------- CHEF ---------- */
+  .chef{background:var(--paper);}
+  .chef-grid{display:grid;grid-template-columns:0.8fr 1fr;gap:70px;align-items:center;}
+  .chef-portrait{
+    aspect-ratio:4/5;border-radius:4px;
+    background:
+      linear-gradient(160deg, rgba(182,144,92,0.35), transparent 60%),
+      linear-gradient(20deg, var(--green-panel), var(--wine));
+    position:relative;overflow:hidden;
+  }
+  .chef-portrait::after{
+    content:'';position:absolute;inset:0;
+    background-image:repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 6px);
+  }
+  .chef-portrait .initials{
+    position:absolute;bottom:24px;left:24px;color:var(--ivory);
+    font-family:'Fraunces',serif;font-style:italic;font-size:1.1rem;opacity:0.85;
+  }
+  .chef-copy p{color:rgba(23,19,16,0.72);font-weight:300;margin-bottom:18px;max-width:520px;}
+  .chef-quote{
+    font-family:'Fraunces',serif;font-style:italic;font-size:1.4rem;
+    color:var(--wine);margin:26px 0;line-height:1.4;max-width:480px;
+    border-left:2px solid var(--brass);padding-left:20px;
+  }
+
+  /* ---------- GALLERY (texture blocks, no fake photos) ---------- */
+  .gallery{background:var(--green-deep);}
+  .gallery .section-head h2{color:var(--ivory);}
+  .gallery-grid{
+    display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:130px;gap:14px;
+  }
+  .g-tile{
+    border-radius:3px;position:relative;overflow:hidden;
+    display:flex;align-items:flex-end;padding:16px;
+    font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(237,230,214,0.7);
+    transition:transform .4s ease;
+  }
+  .g-tile:hover{transform:translateY(-4px);}
+  .g-tile span{position:relative;z-index:1;}
+  .g1{grid-column:span 3;grid-row:span 2;background:linear-gradient(145deg,#2a4b3a,#0F2E23);}
+  .g2{grid-column:span 3;background:linear-gradient(145deg,#5C1A24,#2a0a10);}
+  .g3{grid-column:span 3;background:linear-gradient(145deg,#3a2f1c,#0F2E23);}
+  .g4{grid-column:span 2;grid-row:span 2;background:linear-gradient(160deg,#B6905C,#5C1A24);}
+  .g5{grid-column:span 2;grid-row:span 2;background:linear-gradient(160deg,#153A2C,#0F2E23);}
+  .g6{grid-column:span 2;grid-row:span 2;background:linear-gradient(160deg,#3a2f1c,#5C1A24);}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials{background:var(--paper);}
+  .t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;}
+  .t-card{
+    border:1px solid rgba(23,19,16,0.12);border-radius:6px;padding:34px 28px;
+    background:var(--ivory);
+  }
+  .t-card p.quote{font-family:'Fraunces',serif;font-style:italic;font-size:1.08rem;margin-bottom:20px;}
+  .t-card .who{font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--wine);}
+
+  /* ---------- RESERVE ---------- */
+  .reserve{background:var(--green-deep);color:var(--ivory);}
+  .reserve .section-head h2{color:var(--ivory);}
+  .reserve-wrap{display:grid;grid-template-columns:1fr 1fr;gap:70px;}
+  .reserve-info p{color:rgba(237,230,214,0.7);font-weight:300;margin-bottom:26px;max-width:420px;}
+  .info-row{display:flex;gap:16px;margin-bottom:18px;font-size:0.92rem;}
+  .info-row b{color:var(--brass-bright);min-width:90px;font-weight:600;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;}
+  form{display:flex;flex-direction:column;gap:18px;}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  label{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(237,230,214,0.6);margin-bottom:8px;display:block;}
+  input,select{
+    width:100%;background:rgba(255,255,255,0.03);border:1px solid var(--line);
+    color:var(--ivory);padding:13px 14px;border-radius:4px;font-family:'Inter',sans-serif;font-size:0.92rem;
+  }
+  input:focus,select:focus{outline:none;border-color:var(--brass-bright);}
+  select option{background:var(--green-deep);}
+  .submit-btn{
+    margin-top:10px;background:var(--brass);color:var(--green-deep);
+    border:none;padding:16px;border-radius:4px;font-size:0.85rem;letter-spacing:0.12em;text-transform:uppercase;
+    cursor:pointer;font-weight:600;transition:background .3s ease;
+  }
+  .submit-btn:hover{background:var(--brass-bright);}
+  .form-note{font-size:0.78rem;color:rgba(237,230,214,0.45);margin-top:6px;}
+  .confirm-msg{
+    display:none;padding:16px;border:1px solid var(--brass);border-radius:4px;
+    color:var(--brass-bright);font-size:0.88rem;margin-top:6px;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    background:#0A2018;color:rgba(237,230,214,0.6);
+    padding:70px 6vw 30px;
+  }
+  .footer-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;margin-bottom:60px;}
+  footer h4{color:var(--ivory);font-family:'Fraunces',serif;font-size:1.5rem;margin-bottom:14px;}
+  footer .fcol-title{font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--brass);margin-bottom:16px;}
+  footer .fcol a, footer .fcol p{display:block;font-size:0.88rem;margin-bottom:10px;color:rgba(237,230,214,0.65);}
+  .footer-bottom{
+    border-top:1px solid rgba(237,230,214,0.1);padding-top:24px;
+    display:flex;justify-content:space-between;font-size:0.75rem;color:rgba(237,230,214,0.4);
+    flex-wrap:wrap;gap:10px;
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .nav-links, .nav-cta{display:none;}
+    .nav-toggle{display:block;}
+    .pillars{grid-template-columns:1fr;gap:36px;}
+    .chef-grid{grid-template-columns:1fr;gap:40px;}
+    .reserve-wrap{grid-template-columns:1fr;gap:50px;}
+    .form-row{grid-template-columns:1fr;}
+    .t-grid{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:120px;}
+    .g1,.g4,.g5,.g6{grid-column:span 2;grid-row:span 1;}
+    .g2,.g3{grid-column:span 2;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    section{padding:90px 6vw;}
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="logo"><span class="logo-mark">A</span> AMBRE</div>
+  <div class="nav-links">
+    <a href="#philosophy">Philosophy</a>
+    <a href="#menu">Menu</a>
+    <a href="#chef">Chef</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#reserve">Reserve</a>
+  </div>
+  <a href="#reserve" class="nav-cta">Reserve a Table</a>
+  <button class="nav-toggle" id="navToggle">☰</button>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="eyebrow">Fine Dining · Est. Wood &amp; Fire</div>
+  <h1>AMBRE<br><em>after dark</em></h1>
+  <p class="sub">A wood-fired chophouse where the grill runs on oak, the cellar runs deep, and every table gets the last hour of golden light.</p>
+  <div class="hero-ctas">
+    <a href="#reserve" class="btn-seal">Reserve<br>a Table</a>
+  </div>
+  <a href="#philosophy" class="scroll-cue"><span>Scroll</span><span class="line"></span></a>
+</header>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy">
+  <div class="section-head reveal">
+    <div class="eyebrow">Our Philosophy</div>
+    <h2>Three things we never rush.</h2>
+  </div>
+  <div class="pillars">
+    <div class="pillar reveal">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><path d="M12 2c2 3-2 4-2 7a4 4 0 108 0c0-1-.5-2-1-2 0 2-1.5 2-1.5.5C15.5 5 14 3 12 2z"/></svg>The Fire</h3>
+      <p>Everything on the grill touches oak and cherrywood embers before it touches a plate. No gas, no shortcuts — just heat that takes hours to earn.</p>
+    </div>
+    <div class="pillar reveal">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 3v18M12 8h4M12 12h4M12 16h4"/></svg>The Age</h3>
+      <p>Beef dry-aged a minimum of 35 days in our on-site cellar. The wine list favors the same patience: old vines, older vintages, poured by people who know why.</p>
+    </div>
+    <div class="pillar reveal">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke-width="1.4"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>The Hour</h3>
+      <p>Dining rooms face west. We seat the last tables of the evening so the room fills with the same amber light the restaurant is named for.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="section-head reveal">
+    <div class="eyebrow">The Menu</div>
+    <h2>What's on the fire tonight.</h2>
+  </div>
+  <div class="menu-tabs reveal">
+    <button class="menu-tab active" data-tab="starters">Starters</button>
+    <button class="menu-tab" data-tab="mains">Mains</button>
+    <button class="menu-tab" data-tab="desserts">Desserts</button>
+    <button class="menu-tab" data-tab="bar">The Bar</button>
+  </div>
+
+  <div class="menu-panel active" id="starters">
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Charred Octopus</div><div class="dish-desc">Smoked paprika oil, fingerling potato, salsa verde</div></div><div class="dish-price">$24</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Beef Tartare</div><div class="dish-desc">Aged sirloin, egg yolk, sourdough, shallot</div></div><div class="dish-price">$21</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Burnt Leek &amp; Ash</div><div class="dish-desc">Charred leek, brown butter, hazelnut, goat curd</div></div><div class="dish-price">$18</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Oysters, Half Dozen</div><div class="dish-desc">Mignonette, finger lime</div></div><div class="dish-price">$26</div></div>
+  </div>
+
+  <div class="menu-panel" id="mains">
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">45-Day Dry-Aged Ribeye</div><div class="dish-desc">Oak-fired, bone marrow butter, roasted garlic (32oz)</div></div><div class="dish-price">$96</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Whole Roasted Branzino</div><div class="dish-desc">Fennel, blood orange, chili oil</div></div><div class="dish-price">$44</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Duck Breast &amp; Fig</div><div class="dish-desc">Charred fig, jus, celeriac purée</div></div><div class="dish-price">$41</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Wood-Fired Mushroom Risotto</div><div class="dish-desc">Wild mushroom, aged parmesan, truffle</div></div><div class="dish-price">$34</div></div>
+  </div>
+
+  <div class="menu-panel" id="desserts">
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Burnt Basque Cheesecake</div><div class="dish-desc">Cherry compote</div></div><div class="dish-price">$14</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Dark Chocolate &amp; Sea Salt Tart</div><div class="dish-desc">Olive oil crumb</div></div><div class="dish-price">$15</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Affogato</div><div class="dish-desc">House espresso, vanilla bean, amaretti</div></div><div class="dish-price">$11</div></div>
+  </div>
+
+  <div class="menu-panel" id="bar">
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Ambre Old Fashioned</div><div class="dish-desc">Oak-smoked bourbon, demerara, orange oil</div></div><div class="dish-price">$19</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Cellar Reserve List</div><div class="dish-desc">By the glass or bottle — ask your sommelier</div></div><div class="dish-price">Ask</div></div>
+    <div class="dish"><div class="dish-name-wrap"><div class="dish-name">Negroni, Barrel-Aged</div><div class="dish-desc">Rested six weeks in American oak</div></div><div class="dish-price">$18</div></div>
+  </div>
+</section>
+
+<!-- CHEF -->
+<section class="chef" id="chef">
+  <div class="chef-grid">
+    <div class="chef-portrait reveal"><div class="initials">— R. Vance, Executive Chef</div></div>
+    <div class="chef-copy reveal">
+      <div class="eyebrow">Head of the Kitchen</div>
+      <h2 style="margin:16px 0 22px;font-size:clamp(2rem,3.5vw,2.8rem);">Rosalind Vance</h2>
+      <p>Rosalind trained in Lyon before spending six years running live-fire kitchens across the Basque coast. She opened AMBRE to build the restaurant she always wanted to eat in: unpretentious ingredients, treated with real patience.</p>
+      <p>Her team butchers whole animals in-house, keeps a working relationship with three regional farms, and changes the menu with the seasons rather than the calendar.</p>
+      <div class="chef-quote">"A good fire asks for nothing but time. That's the whole recipe."</div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="section-head reveal">
+    <div class="eyebrow">Inside AMBRE</div>
+    <h2>The room, the grill, the cellar.</h2>
+  </div>
+  <div class="gallery-grid reveal">
+    <div class="g-tile g1"><span>The Dining Room</span></div>
+    <div class="g-tile g2"><span>The Grill</span></div>
+    <div class="g-tile g3"><span>The Cellar</span></div>
+    <div class="g-tile g4"><span>Bar &amp; Lounge</span></div>
+    <div class="g-tile g5"><span>Private Room</span></div>
+    <div class="g-tile g6"><span>The Terrace</span></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-head reveal">
+    <div class="eyebrow">Guests Say</div>
+    <h2>Word from the room.</h2>
+  </div>
+  <div class="t-grid">
+    <div class="t-card reveal"><p class="quote">"The ribeye alone is worth the drive. Best dry-aged beef in the city, full stop."</p><div class="who">— M. Okafor</div></div>
+    <div class="t-card reveal"><p class="quote">"Golden hour by the window with the barrel-aged Negroni. Perfect anniversary dinner."</p><div class="who">— T. &amp; L. Brennan</div></div>
+    <div class="t-card reveal"><p class="quote">"Service that knows the wine list cold without ever being stiff about it."</p><div class="who">— J. Alvarado</div></div>
+  </div>
+</section>
+
+<!-- RESERVE -->
+<section class="reserve" id="reserve">
+  <div class="section-head reveal">
+    <div class="eyebrow">Reserve</div>
+    <h2>Book your table.</h2>
+  </div>
+  <div class="reserve-wrap">
+    <div class="reserve-info reveal">
+      <p>Reservations open 60 days in advance. Parties of eight or more, or requests for the private room, should contact us directly.</p>
+      <div class="info-row"><b>Hours</b><span>Tue–Sun, 5:00 PM – 11:00 PM<br>Closed Mondays</span></div>
+      <div class="info-row"><b>Address</b><span>118 Kiln Street, Riverside District</span></div>
+      <div class="info-row"><b>Phone</b><span>+1 (555) 014‑2290</span></div>
+      <div class="info-row"><b>Dress</b><span>Smart casual, no exceptions after 7 PM</span></div>
+    </div>
+    <form class="reveal" id="reserveForm">
+      <div class="form-row">
+        <div><label for="rName">Name</label><input id="rName" type="text" required placeholder="Full name"></div>
+        <div><label for="rPhone">Phone</label><input id="rPhone" type="tel" required placeholder="Phone number"></div>
+      </div>
+      <div class="form-row">
+        <div><label for="rDate">Date</label><input id="rDate" type="date" required></div>
+        <div><label for="rTime">Time</label><select id="rTime" required>
+          <option value="">Select</option>
+          <option>5:00 PM</option><option>5:30 PM</option><option>6:00 PM</option>
+          <option>6:30 PM</option><option>7:00 PM</option><option>7:30 PM</option>
+          <option>8:00 PM</option><option>8:30 PM</option><option>9:00 PM</option>
+        </select></div>
+      </div>
+      <div>
+        <label for="rGuests">Party size</label>
+        <select id="rGuests" required>
+          <option value="">Select</option>
+          <option>1 guest</option><option>2 guests</option><option>3 guests</option>
+          <option>4 guests</option><option>5 guests</option><option>6 guests</option>
+          <option>7+ guests (we'll call you)</option>
+        </select>
+      </div>
+      <button type="submit" class="submit-btn">Request Reservation</button>
+      <p class="form-note">This is a demo form — no reservation is actually submitted.</p>
+      <div class="confirm-msg" id="confirmMsg">Thank you — your table request has been noted. We'll confirm by phone within 24 hours.</div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h4>AMBRE</h4>
+      <p style="max-width:280px;color:rgba(237,230,214,0.55);font-weight:300;">A wood-fired chophouse in the Riverside District. Fire, age, and the last hour of light — every night.</p>
+    </div>
+    <div class="fcol">
+      <div class="fcol-title">Explore</div>
+      <a href="#menu">Menu</a>
+      <a href="#chef">Chef</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#reserve">Reservations</a>
+    </div>
+    <div class="fcol">
+      <div class="fcol-title">Visit</div>
+      <p>118 Kiln Street<br>Riverside District</p>
+      <p>Tue–Sun, 5–11 PM</p>
+    </div>
+    <div class="fcol">
+      <div class="fcol-title">Contact</div>
+      <p>+1 (555) 014‑2290</p>
+      <p>hello@ambre-restaurant.example</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 AMBRE Restaurant. All rights reserved.</span>
+    <span>Site design — premium restaurant template</span>
+  </div>
+</footer>
+
+<script>
+  // nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', ()=>{
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // mobile nav toggle -> simple fallback: scroll to reserve links list toggle
+  document.getElementById('navToggle').addEventListener('click', ()=>{
+    const links = document.querySelector('.nav-links');
+    const cta = document.querySelector('.nav-cta');
+    const shown = links.style.display === 'flex';
+    links.style.display = shown ? 'none' : 'flex';
+    cta.style.display = shown ? 'none' : 'inline-block';
+    links.style.cssText += shown ? '' : 'position:absolute;top:64px;right:6vw;background:#0F2E23;flex-direction:column;padding:20px 24px;border-radius:8px;gap:16px;box-shadow:0 12px 30px rgba(0,0,0,0.3);';
+  });
+
+  // menu tabs
+  document.querySelectorAll('.menu-tab').forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      document.querySelectorAll('.menu-tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  // reservation form demo submit
+  document.getElementById('reserveForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('confirmMsg').style.display = 'block';
+    this.querySelector('.submit-btn').textContent = 'Request Sent';
+  });
+</script>
+</body>
+</html>
